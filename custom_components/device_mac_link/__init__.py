@@ -557,7 +557,10 @@ class DeviceMacLinkManager:
             if silent is not None:
                 silent.add(entity.device_id)
             if warn:
-                self._warn_once(entity.entity_id, "no value yet")
+                # Normal/transient: the device is offline, or an online sensor
+                # simply has not reported its MAC yet (it links via the state
+                # event moments later). Not worth a warning.
+                _LOGGER.debug("%s: no value yet", entity.entity_id)
             return 0
         mac = state.state.strip()
         if not _MAC_RE.match(mac):
@@ -645,9 +648,13 @@ class DeviceMacLinkManager:
                 if mac_index is None:
                     mac_index = self._network_mac_index(dev_reg)
                 if not (mac_index.get(mac, set()) - {device.id}):
-                    self._warn_once(
-                        f"idsrc:{device.id}:{raw}",
-                        f"derived MAC {mac} is held by no other device; skipping",
+                    # Expected safety skip: the default pattern often matches a
+                    # non-MAC id tail, so declining to stamp it is normal, not a
+                    # problem worth warning about.
+                    _LOGGER.debug(
+                        "idsrc %s: derived MAC %s is held by no other device; skipping",
+                        device.id,
+                        mac,
                     )
                     continue
                 if self._link_mac(dev_reg, device, mac, dr.CONNECTION_NETWORK_MAC):
