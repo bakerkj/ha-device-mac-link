@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Validate version matches release tag
+        run: |
+          version=$(python3 -c "import json; print(json.load(open('custom_components/device_mac_link/manifest.json'))['version'])")
+          tag="${GITHUB_REF#refs/tags/v}"
+          if [ "$version" != "$tag" ]; then
+            echo "manifest.json version ($version) does not match release tag ($tag)"
+            exit 1
+          fi
+      - name: Build release zip
+        run: |
+          cd custom_components/device_mac_link
+          zip -r "$GITHUB_WORKSPACE/device_mac_link.zip" .
+      - name: Attach zip to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          gh release upload "${GITHUB_REF#refs/tags/}" device_mac_link.zip
+          --clobber

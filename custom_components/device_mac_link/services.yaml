@@ -1,0 +1,9 @@
+rescan:
+  name: Rescan
+  description: >-
+    Scan matching MAC sensors now and add each MAC to its device as a link
+    connection, instead of waiting for the next scheduled scan.
+
+reload:
+  name: Reload
+  description: Reload the Device MAC Link YAML configuration.

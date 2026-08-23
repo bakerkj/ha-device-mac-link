@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Device MAC Link">
+  <rect width="256" height="256" rx="56" fill="#1e293b"/>
+  <!-- two interlocked link ovals = "link" -->
+  <g fill="none" stroke="#14b8a6" stroke-width="18" stroke-linecap="round">
+    <rect x="44" y="96" width="104" height="64" rx="32"/>
+    <rect x="108" y="96" width="104" height="64" rx="32"/>
+  </g>
+  <!-- node dots = MAC endpoints -->
+  <g fill="#e2e8f0">
+    <circle cx="72" cy="128" r="12"/>
+    <circle cx="184" cy="128" r="12"/>
+  </g>
+</svg>

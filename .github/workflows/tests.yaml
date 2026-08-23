@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # Single target: whatever pyproject/uv.lock currently pin (>= 2026.8, the
+  # oldest release where a shared MAC connection links two device entries via
+  # the per-config-entry device split). Renovate bumps that pin, so this job
+  # follows Home Assistant forward on its own.
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          enable-cache: true
+          cache-suffix: tests
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+
+      - name: Install the locked environment
+        run: uv sync
+
+      - name: Home Assistant under test
+        run: >-
+          uv run --no-sync python -c "from homeassistant.const import
+          __version__; print(__version__)"
+
+      - name: Tests (with coverage gate)
+        run: >-
+          uv run --no-sync python -m pytest tests/
+          --cov=custom_components/device_mac_link --cov-report=term-missing
+          --cov-fail-under=90 --durations=10
