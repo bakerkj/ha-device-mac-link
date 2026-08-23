@@ -82,8 +82,8 @@ device_mac_link:
 - **`source_integrations`** (default `[esphome]`) — only sensors whose device
   belongs to one of these integrations are considered. Set to `[]` to consider
   all matching sensors.
-- **`scan_interval`** (default `00:15:00`) — cadence of the safety-net rescan.
-  A full scan also runs at startup; between rescans, sensor state changes and
+- **`scan_interval`** (default `00:15:00`) — cadence of the safety-net rescan. A
+  full scan also runs at startup; between rescans, sensor state changes and
   registry updates are handled as they happen.
 - **`rules`** — a list of `{pattern, connection}` entries; the first whose
   `pattern` matches a sensor's entity ID decides the connection type its MAC is
@@ -91,8 +91,8 @@ device_mac_link:
   `entity_pattern` provides a single `mac` rule.
 - **`identifier_sources`** — a list of `{integration, pattern}` entries. For
   devices belonging to `integration`, `pattern` (a capturing regex, default
-  `([0-9a-fA-F]{12})$`) pulls the MAC out of the device's own registry identifier.
-  Use this where the id embeds the MAC and no sensor exposes it.
+  `([0-9a-fA-F]{12})$`) pulls the MAC out of the device's own registry
+  identifier. Use this where the id embeds the MAC and no sensor exposes it.
 - **`static_links`** — a list of `[integration, device_id, mac]` triples for
   devices that expose the MAC nowhere at all. The device matched by the
   `(integration, device_id)` registry identifier receives `mac`.
@@ -132,10 +132,10 @@ Reload the `device_mac_link:` configuration from `configuration.yaml`.
   integration or the device itself created.
 - **Offline-safe:** a device being briefly unavailable never strips its link — a
   stamp is removed only on positive evidence (a source actively reporting a
-  *different* value, or the config dropping the source).
-- **No false links:** a MAC derived from a device identifier is only stamped when
-  another device already carries it; randomized/locally-administered network MACs
-  are rejected.
+  _different_ value, or the config dropping the source).
+- **No false links:** a MAC derived from a device identifier is only stamped
+  when another device already carries it; randomized/locally-administered
+  network MACs are rejected.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the full design.
 

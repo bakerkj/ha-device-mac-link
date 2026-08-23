@@ -45,7 +45,7 @@ randomization). Bluetooth keeps `0x02` addresses, which BLE uses legitimately.
 Explicitly-configured `static_links` MACs are allowed to be locally-administered
 (the user asserted them).
 
-The `identifier_sources` default pattern matches *any* trailing 12 hex, so a
+The `identifier_sources` default pattern matches _any_ trailing 12 hex, so a
 derived MAC is only trusted (stamped) when **another device already carries it**
 — otherwise a coincidental id tail (a UUID segment, a decimal serial) would be
 stamped as a bogus MAC and create a false link.
@@ -70,23 +70,24 @@ forbids; that is caught, warned once, and skipped.
 ## Lifecycle — event-driven
 
 Setup is YAML-only (`async_setup` + `CONFIG_SCHEMA`); there is no config flow.
-The manager stays in sync from events, with a periodic full scan as a safety net:
+The manager stays in sync from events, with a periodic full scan as a safety
+net:
 
 - **Startup:** a full scan at `EVENT_HOMEASSISTANT_STARTED` (`async_at_started`)
   — or immediately if HA is already running (late setup / reload).
-- **State changes:** a subscription (`async_track_state_change_event`) on the set
-  of sensors matching the rules, so a sensor coming online with its MAC links at
-  once. The tracked set is rebuilt only when a *matching* entity-registry event
-  fires (not on every entity change).
+- **State changes:** a subscription (`async_track_state_change_event`) on the
+  set of sensors matching the rules, so a sensor coming online with its MAC
+  links at once. The tracked set is rebuilt only when a _matching_
+  entity-registry event fires (not on every entity change).
 - **Device registry:** new/updated devices are run through the
   `identifier_sources` and `static_links` rules. Our own writes re-fire this
   event, but the work is idempotent (and suppressed during reconcile), so it
   cannot loop.
 - **Safety-net timer:** a full scan every `scan_interval` (default 15 min).
 
-Subscriptions are established synchronously before the startup scan is scheduled,
-so nothing that fires in between is missed; overlap is safe because every write
-is idempotent. All handles are released on Home Assistant stop.
+Subscriptions are established synchronously before the startup scan is
+scheduled, so nothing that fires in between is missed; overlap is safe because
+every write is idempotent. All handles are released on Home Assistant stop.
 
 ## Reconcile — removing our own stale stamps
 
@@ -96,8 +97,8 @@ managed connection the config no longer wants. It **only ever removes its own
 stamps** — connections added by other integrations or the device are never
 touched.
 
-Removal happens **only on positive evidence**. A managed connection is *kept*
-if any of these hold:
+Removal happens **only on positive evidence**. A managed connection is _kept_ if
+any of these hold:
 
 - a matching sensor is **currently reporting** it;
 - the device has a matching sensor that is **silent right now** (offline /
@@ -106,11 +107,11 @@ if any of these hold:
   so it survives a holder momentarily disappearing);
 - it is a current `static_links` entry.
 
-Otherwise it is stale — a matching sensor is actively reporting a *different*
+Otherwise it is stale — a matching sensor is actively reporting a _different_
 value, or the config dropped the source entirely — and it is removed. This is
 what guarantees an **offline device is never unlinked**.
 
-Residual limitation (a stale-*keep*, never a wrongful removal): if the managed
+Residual limitation (a stale-_keep_, never a wrongful removal): if the managed
 store is lost/corrupted, the add-on forgets it owns the existing stamps and can
 no longer reconcile them. Re-adopting connections it merely finds present was
 rejected as unsafe (it might claim another integration's connection); a
