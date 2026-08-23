@@ -1,0 +1,15 @@
+{
+  "domain": "device_mac_link",
+  "name": "Device MAC Link",
+  "codeowners": [
+    "@bakerkj"
+  ],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/bakerkj/ha-device-mac-link",
+  "integration_type": "service",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/bakerkj/ha-device-mac-link/issues",
+  "requirements": [],
+  "version": "0.0.0"
+}

@@ -1,0 +1,45 @@
+name: HA dev compatibility
+
+on:
+  schedule:
+    # Weekly early-warning: Mondays 07:00 UTC.
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "custom_components/device_mac_link/**"
+      - "tests/**"
+      - ".github/workflows/ha-dev-compat.yaml"
+
+jobs:
+  ha-dev-tests:
+    runs-on: ubuntu-24.04
+    # Informational only — a red cross here means HA upstream changed (e.g. the
+    # device-registry link/reconcile API this integration depends on), not that
+    # this branch is broken. Merges to main are not blocked.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          # Cache the pinned-dep install (keyed on uv.lock). Safe vs. the HA
+          # dev override below: `uv pip install git+https://...@dev` re-resolves
+          # the moving branch tip every run and is never satisfied from cache.
+          enable-cache: true
+          cache-suffix: ha-dev-compat
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Install project deps
+        run: uv sync
+      - name: Override homeassistant with dev branch
+        run: |
+          uv pip install --upgrade \
+            "homeassistant @ git+https://github.com/home-assistant/core.git@dev" \
+            pytest-homeassistant-custom-component
+      - name: Home Assistant under test
+        run:
+          uv run --no-sync python -c "from homeassistant.const import
+          __version__; print(__version__)"
+      - name: Run the test suite against HA dev
+        run: uv run --no-sync python -m pytest tests/ -v

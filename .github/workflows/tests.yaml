@@ -1,0 +1,102 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  versions:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-24.04
+    strategy:
+      # Report both results; a failure on one version is useful to see next to
+      # a pass on the other.
+      fail-fast: false
+      matrix:
+        include:
+          # CEILING — whatever pyproject/uv.lock currently pin. Renovate bumps
+          # that pin, so this job follows Home Assistant forward on its own and
+          # is where a new release's breakage shows up first. Primary target,
+          # and the version the coverage gate is calibrated against.
+          - name: HA ceiling (pinned)
+            slug: ha-ceiling
+            downgrade: ""
+            coverage: true
+          # FLOOR — the oldest release this integration supports. It requires
+          # 2026.8, where a shared MAC connection links two device entries (the
+          # per-config-entry device split); earlier releases merged them and the
+          # linking model does not apply. Deliberately hard-coded here and NOT in
+          # pyproject, so Renovate never sees it: raising the floor drops support
+          # for everyone still on it, a decision to make on purpose rather than
+          # merge in a dependency PR. The `.*` tracks 2026.8 patch releases
+          # without crossing into the next minor. Currently equal to the ceiling;
+          # they diverge as Home Assistant advances and Renovate bumps the pin.
+          #
+          # Naming homeassistant (not the plugin) keeps the intent legible;
+          # pytest-homeassistant-custom-component pins HA exactly, so uv resolves
+          # the plugin release matching whatever is asked for here.
+          - name: HA floor (2026.8)
+            slug: ha-floor
+            downgrade: homeassistant==2026.8.*
+            coverage: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          enable-cache: true
+          cache-suffix: tests-${{ matrix.slug }}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+
+      - name: Install the locked environment
+        run: uv sync
+
+      # Imperative, so it overrides the locked homeassistant in the venv without
+      # having to relax the project's pin. The plugin is named unpinned so uv
+      # re-resolves it down to the release matching the requested HA (it pins HA
+      # exactly, so leaving the locked one installed would conflict). Every later
+      # step uses --no-sync so uv doesn't restore the lockfile version underneath.
+      - name: Downgrade Home Assistant to the floor
+        if: matrix.downgrade != ''
+        run: >-
+          uv pip install "${{ matrix.downgrade }}"
+          pytest-homeassistant-custom-component
+
+      - name: Home Assistant under test
+        run: >-
+          uv run --no-sync python -c "from homeassistant.const import
+          __version__; print(__version__)"
+
+      - name: Tests
+        if: ${{ !matrix.coverage }}
+        run: uv run --no-sync python -m pytest tests/ --durations=10
+
+      # The gate lives on the ceiling only: the floor skips the tests covering
+      # 2026.8-specific behaviour, so its coverage is legitimately lower and
+      # would fail a threshold calibrated for the full run.
+      - name: Tests (with coverage gate)
+        if: matrix.coverage
+        run: >-
+          uv run --no-sync python -m pytest tests/
+          --cov=custom_components/device_mac_link --cov-report=term-missing
+          --cov-fail-under=90 --durations=10
+
+  # Stable name for branch protection to require. The matrix jobs are named
+  # after the HA version they run, so their check names move every time the
+  # floor or ceiling is bumped — a required check pinned to one of those would
+  # silently stop reporting and block every PR forever. This one never changes
+  # its name and just mirrors the matrix result.
+  #
+  # `if: always()` matters: without it this is skipped when a matrix leg fails,
+  # the required check never reports, and the PR is blocked rather than failed.
+  tests:
+    needs: versions
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Mirror the matrix result
+        run: |
+          echo "matrix result: ${{ needs.versions.result }}"
+          [ "${{ needs.versions.result }}" = "success" ]
