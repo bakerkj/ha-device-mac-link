@@ -1,6 +1,6 @@
 [project]
 name = "ha-device-mac-link"
-version = "0.0.0" # x-release-please-version
+version = "0.0.2" # x-release-please-version
 description = "Home Assistant integration that adds a device's real network MAC (learned from a companion sensor) as a device-registry connection, so devices link to their switch port and other representations."
 license = "MIT"
 requires-python = ">=3.14.2"
