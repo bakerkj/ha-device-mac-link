@@ -19,7 +19,7 @@ dev = [
 ]
 
 [tool.uv]
-required-version = "==0.12.5"
+required-version = "==0.12.6"
 # HA's test plugin pulls an older mypy; force a build new enough to parse the
 # Python 3.14 parenthesis-optional `except A, B:` (PEP 758) syntax.
 override-dependencies = ["mypy>=2.1.0"]
