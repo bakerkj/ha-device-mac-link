@@ -1,6 +1,6 @@
 {
   "name": "Device MAC Link",
-  "homeassistant": "2026.8.0",
+  "homeassistant": "2026.9.0",
   "render_readme": true,
   "zip_release": true,
   "filename": "device_mac_link.zip"

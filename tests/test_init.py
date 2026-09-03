@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import logging
 from unittest.mock import patch
 
 import pytest
@@ -80,7 +81,7 @@ async def _scan(hass: HomeAssistant) -> int:
 
 
 def _get(hass: HomeAssistant, device_id: str) -> dr.DeviceEntry:
-    device = dr.async_get(hass).async_get(device_id)
+    device = dr.async_get(hass).async_get(device_id, include_child_devices=False)
     assert device is not None
     return device
 
@@ -816,3 +817,37 @@ async def test_setup_without_domain_key(hass: HomeAssistant) -> None:
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
     assert DOMAIN not in hass.data
+
+
+async def test_child_device_ignored(
+    hass: HomeAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    # HA 2026.9+ child devices carry no `connections` and reject
+    # async_update_device, so they can never hold a MAC link. One whose
+    # identifier would otherwise match an identifier_source rule must be skipped
+    # by both the registry event and the full scan — not raise, not be counted.
+    _make_holder(hass, "50:00:00:00:00:01")
+    await _setup(
+        hass, {CONF_IDENTIFIER_SOURCES: [{"integration": "smartthinq_sensors"}]}
+    )
+    entry = MockConfigEntry(domain="smartthinq_sensors")
+    entry.add_to_hass(hass)
+    dev_reg = dr.async_get(hass)
+    parent = dev_reg.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={("smartthinq_sensors", "hub")},
+        name="Hub",
+    )
+    with caplog.at_level(logging.ERROR):
+        child = dev_reg.async_get_or_create_child(
+            config_entry_id=entry.entry_id,
+            identifiers={
+                ("smartthinq_sensors", "00000000-0000-0000-0000-500000000001")
+            },
+            parent_device_id=parent.id,
+            name="Dryer",
+        )
+        await hass.async_block_till_done()
+    assert "child device" not in caplog.text
+    assert await _scan(hass) == 0
+    assert dev_reg.async_get(child.id, include_child_devices=False) is None

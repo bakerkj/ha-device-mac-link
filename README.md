@@ -32,8 +32,9 @@ editing the registry.
 
 ## Requirements
 
-- Home Assistant **2026.8 or newer** (it relies on the per-config-entry device
-  split, where a shared MAC connection links two device entries).
+- Home Assistant **2026.9 or newer** (it relies on the per-config-entry device
+  split, where a shared MAC connection links two device entries, and on the
+  2026.9 device-registry API that separates child devices from main ones).
 
 ## Installation
 

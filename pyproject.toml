@@ -8,10 +8,11 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-  # Requires Home Assistant 2026.8+, where a shared MAC connection links two
-  # device entries (the per-config-entry device split). pytest-homeassistant-
-  # custom-component pins HA exactly, so uv resolves the plugin release whose
-  # pinned HA satisfies this constraint.
+  # Requires Home Assistant 2026.9+: a shared MAC connection links two device
+  # entries (the 2026.8 per-config-entry device split), and the device registry
+  # takes the 2026.9 shape (iterable `devices`, child-device-aware `async_get`).
+  # pytest-homeassistant-custom-component pins HA exactly, so uv resolves the
+  # plugin release whose pinned HA satisfies this constraint.
   "homeassistant==2026.9.*",
   "pytest-homeassistant-custom-component>=0.13.323",
   "pytest-cov>=5",

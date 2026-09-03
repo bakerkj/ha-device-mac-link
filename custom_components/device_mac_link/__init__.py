@@ -387,8 +387,10 @@ class DeviceMacLinkManager:
         if event.data["action"] not in ("create", "update"):
             return
         dev_reg = dr.async_get(self.hass)
-        device = dev_reg.async_get(event.data["device_id"])
+        device = dev_reg.async_get(event.data["device_id"], include_child_devices=False)
         if device is None:
+            # Removed again, or a child device — children carry no connections,
+            # so there is nothing for us to link.
             return
         self._process_device_identifiers(dev_reg, device)
         self._scan_static_links(dev_reg)
@@ -435,7 +437,7 @@ class DeviceMacLinkManager:
             )
         if self._identifier_sources:
             mac_index = self._network_mac_index(dev_reg)
-            for device in list(dev_reg.devices.values()):
+            for device in list(dev_reg.devices):
                 added += self._process_device_identifiers(dev_reg, device, mac_index)
         added += self._scan_static_links(dev_reg)
         removed = self._reconcile_managed(dev_reg, observed, silent)
@@ -483,7 +485,7 @@ class DeviceMacLinkManager:
         removed = 0
         try:
             for did, managed in list(self._managed.items()):
-                device = dev_reg.async_get(did)
+                device = dev_reg.async_get(did, include_child_devices=False)
                 if device is None:  # device gone entirely — nothing to remove
                     del self._managed[did]
                     continue
@@ -547,7 +549,7 @@ class DeviceMacLinkManager:
         )
         if connection_type is None:
             return 0
-        device = dev_reg.async_get(entity.device_id)
+        device = dev_reg.async_get(entity.device_id, include_child_devices=False)
         if device is None:
             return 0
         if self._sources and not (self._device_domains(device) & self._sources):
@@ -594,7 +596,7 @@ class DeviceMacLinkManager:
     def _network_mac_index(self, dev_reg: dr.DeviceRegistry) -> dict[str, set[str]]:
         """Map each network MAC to the set of device ids that carry it."""
         index: dict[str, set[str]] = {}
-        for dev in dev_reg.devices.values():
+        for dev in dev_reg.devices:
             for ctype, value in dev.connections:
                 if ctype == dr.CONNECTION_NETWORK_MAC:
                     index.setdefault(value, set()).add(dev.id)
@@ -605,7 +607,7 @@ class DeviceMacLinkManager:
     ) -> str | None:
         """Return an existing peer's exact casing for a bluetooth address, if any."""
         upper = mac.upper()
-        for dev in dev_reg.devices.values():
+        for dev in dev_reg.devices:
             for ctype, value in dev.connections:
                 if ctype == dr.CONNECTION_BLUETOOTH and value.upper() == upper:
                     return value
@@ -693,7 +695,7 @@ class DeviceMacLinkManager:
         conn = (connection_type, value)
         # Re-fetch the device so a stale snapshot from an earlier pass in this scan
         # doesn't mis-report (accurate add count, correct idempotency).
-        current = dev_reg.async_get(device.id) or device
+        current = dev_reg.async_get(device.id, include_child_devices=False) or device
         if conn in current.connections:
             # Already present. If we added it before (tracked), keep it managed;
             # otherwise leave it alone (another integration owns it).
