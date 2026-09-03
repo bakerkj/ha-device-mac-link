@@ -124,6 +124,9 @@ delete-and-re-add re-establishes ownership.
 
 ## Requirements
 
-Home Assistant **2026.8+** — earlier releases merged multi-config-entry devices
-instead of linking them, so the shared-connection model this integration relies
-on does not apply.
+Home Assistant **2026.9+**. The shared-connection model this integration relies
+on arrived in 2026.8 — earlier releases merged multi-config-entry devices
+instead of linking them. 2026.9 then reshaped the device registry: `devices` is
+a `Collection[DeviceEntry]` to iterate rather than a mapping, and `async_get`
+can return a `ChildDeviceEntry`, which carries no `connections`. Every lookup
+here passes `include_child_devices=False`, a keyword 2026.8 does not accept.

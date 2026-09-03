@@ -85,3 +85,17 @@ def test_homeassistant_stop_event_constant() -> None:
     from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 
     assert str(EVENT_HOMEASSISTANT_STOP) == "homeassistant_stop"
+
+
+def test_async_get_excludes_child_devices() -> None:
+    """We resolve devices with ``include_child_devices=False``.
+
+    Child devices (HA 2026.9+) carry no ``connections``, so every lookup this
+    integration makes asks for main/composite devices only.
+    """
+    from homeassistant.helpers import device_registry as dr
+
+    assert (
+        "include_child_devices"
+        in inspect.signature(dr.DeviceRegistry.async_get).parameters
+    )
