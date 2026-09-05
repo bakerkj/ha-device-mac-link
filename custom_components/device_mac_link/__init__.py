@@ -85,6 +85,24 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+
+def _device_by_identifier(
+    dev_reg: dr.DeviceRegistry, identifier: tuple[str, str]
+) -> dr.DeviceEntry | None:
+    """Return the single main device carrying ``identifier``, or None.
+
+    Replaces the deprecated ``async_get_device`` (which since HA 2026.9 runs an
+    expensive ``report_usage`` stack-walk on every call). We stamp MACs onto
+    devices owned by *other* integrations, so we do not know their config entry
+    and cannot use ``async_get_device_by_identifier``; ``async_get_devices``
+    matches by identifier without one. A device id is unique, so at most one
+    device matches; if several share the identifier we take the first, matching
+    the old fallback.
+    """
+    matches = dev_reg.async_get_devices(identifiers={identifier})
+    return matches[0] if matches else None
+
+
 _MAC_RE = re.compile(r"^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$")
 
 # Persists the connections this integration itself has added, so a full scan can
@@ -476,7 +494,7 @@ class DeviceMacLinkManager:
         idsrc_domains = {integ for integ, _ in self._identifier_sources}
         static_conns: dict[str, set[tuple[str, str]]] = {}
         for integration, device_id, mac in self._static_links:
-            d = dev_reg.async_get_device(identifiers={(integration, device_id)})
+            d = _device_by_identifier(dev_reg, (integration, device_id))
             if d is not None:
                 static_conns.setdefault(d.id, set()).add(
                     (dr.CONNECTION_NETWORK_MAC, dr.format_mac(mac))
@@ -668,7 +686,7 @@ class DeviceMacLinkManager:
         """Stamp each configured MAC onto the device matched by its identifier."""
         added = 0
         for integration, device_id, mac in self._static_links:
-            device = dev_reg.async_get_device(identifiers={(integration, device_id)})
+            device = _device_by_identifier(dev_reg, (integration, device_id))
             if device is None:
                 self._warn_once(
                     f"static:{integration}:{device_id}",
@@ -701,7 +719,12 @@ class DeviceMacLinkManager:
             # otherwise leave it alone (another integration owns it).
             return False
         try:
-            dev_reg.async_update_device(device.id, merge_connections={conn})
+            # merge_connections is deprecated (2026.9); pass the full set as
+            # new_connections. ``current`` was just fetched, so union-and-write
+            # preserves every existing connection and adds ours.
+            dev_reg.async_update_device(
+                device.id, new_connections=current.connections | {conn}
+            )
         except dr.DeviceConnectionCollisionError:
             # A MAC shared across different config entries (e.g. this device and
             # its switch port) does not collide — the merge above links them. A
