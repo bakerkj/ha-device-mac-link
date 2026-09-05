@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.3](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.2...v0.0.3) (2026-09-05)
+
+
+### Bug Fixes
+
+* migrate off deprecated async_get_device for HA 2026.9 ([#20](https://github.com/bakerkj/ha-device-mac-link/issues/20)) ([e73061a](https://github.com/bakerkj/ha-device-mac-link/commit/e73061a9c9657a7f1f5fa0d78b014ccedcf2fe72))
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency uv to v0.12.10 ([#18](https://github.com/bakerkj/ha-device-mac-link/issues/18)) ([1ce350e](https://github.com/bakerkj/ha-device-mac-link/commit/1ce350e9a6b300112ee3e08a11cb801c13c5f10c))
+
 ## [0.0.2](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.1...v0.0.2) (2026-09-03)
 
 
