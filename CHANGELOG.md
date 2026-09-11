@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.4](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.3...v0.0.4) (2026-09-11)
+
+
+### Miscellaneous Chores
+
+* **deps:** update anthropics/claude-code-action action to v1.0.217 ([#21](https://github.com/bakerkj/ha-device-mac-link/issues/21)) ([99d5eab](https://github.com/bakerkj/ha-device-mac-link/commit/99d5eab9c1ded3a9dff6defb8323cb501182ca47))
+* **deps:** update anthropics/claude-code-action action to v1.0.218 ([#23](https://github.com/bakerkj/ha-device-mac-link/issues/23)) ([947473a](https://github.com/bakerkj/ha-device-mac-link/commit/947473a1fd5c8032d90549d3e298f7c3634f457d))
+* **deps:** update dependency uv to v0.12.11 ([#24](https://github.com/bakerkj/ha-device-mac-link/issues/24)) ([b110552](https://github.com/bakerkj/ha-device-mac-link/commit/b11055277d1bb80cf7e516ea96a94b9c5874ed50))
+
 ## [0.0.3](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.2...v0.0.3) (2026-09-05)
 
 
