@@ -13,7 +13,7 @@ on:
 
 jobs:
   ha-dev-signature:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # Informational only — a red cross here means HA upstream changed, not
     # that this branch is broken. Merges to main are not blocked.
     continue-on-error: true
