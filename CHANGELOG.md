@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.0.4](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.3...v0.0.4) (2026-09-24)
+
+
+### Bug Fixes
+
+* **renovate:** don't duplicate runs-on detection with the built-in manager ([#29](https://github.com/bakerkj/ha-device-mac-link/issues/29)) ([a04b28b](https://github.com/bakerkj/ha-device-mac-link/commit/a04b28b34253d63c8d664fa956cac9d458dfe865))
+
+
+### Miscellaneous Chores
+
+* **deps:** update anthropics/claude-code-action action to v1.0.217 ([#21](https://github.com/bakerkj/ha-device-mac-link/issues/21)) ([99d5eab](https://github.com/bakerkj/ha-device-mac-link/commit/99d5eab9c1ded3a9dff6defb8323cb501182ca47))
+* **deps:** update anthropics/claude-code-action action to v1.0.218 ([#23](https://github.com/bakerkj/ha-device-mac-link/issues/23)) ([947473a](https://github.com/bakerkj/ha-device-mac-link/commit/947473a1fd5c8032d90549d3e298f7c3634f457d))
+* **deps:** update anthropics/claude-code-action action to v1.0.226 ([#35](https://github.com/bakerkj/ha-device-mac-link/issues/35)) ([069125c](https://github.com/bakerkj/ha-device-mac-link/commit/069125c6427a3be94cd4b478b61e1fc4bfdafb67))
+* **deps:** update dependency ubuntu to v26 ([#28](https://github.com/bakerkj/ha-device-mac-link/issues/28)) ([4b5f980](https://github.com/bakerkj/ha-device-mac-link/commit/4b5f980d03a84e785918174a2b0d5c16a258d61c))
+* **deps:** update dependency uv to v0.12.11 ([#24](https://github.com/bakerkj/ha-device-mac-link/issues/24)) ([b110552](https://github.com/bakerkj/ha-device-mac-link/commit/b11055277d1bb80cf7e516ea96a94b9c5874ed50))
+* **deps:** update dependency uv to v0.12.14 ([#25](https://github.com/bakerkj/ha-device-mac-link/issues/25)) ([3073e46](https://github.com/bakerkj/ha-device-mac-link/commit/3073e4697e8afaeaed102db67a42b61ff90bdab8))
+* **deps:** update dependency uv to v0.12.15 ([#32](https://github.com/bakerkj/ha-device-mac-link/issues/32)) ([215b30e](https://github.com/bakerkj/ha-device-mac-link/commit/215b30eca29b80bba586128550c547e38bf206d6))
+* **deps:** update dependency uv to v0.12.17 ([#34](https://github.com/bakerkj/ha-device-mac-link/issues/34)) ([f408aa8](https://github.com/bakerkj/ha-device-mac-link/commit/f408aa805e738b55851a397d6512d29da6069b02))
+* **deps:** update dependency uv to v0.12.18 ([#36](https://github.com/bakerkj/ha-device-mac-link/issues/36)) ([06d94b8](https://github.com/bakerkj/ha-device-mac-link/commit/06d94b8af8436ad7790d542f6f9c3df567b81289))
+* **deps:** update github-actions ([#26](https://github.com/bakerkj/ha-device-mac-link/issues/26)) ([35a8fbf](https://github.com/bakerkj/ha-device-mac-link/commit/35a8fbfb03826b889cebe6ee1f24eb64c7524b12))
+* **deps:** update github-actions ([#37](https://github.com/bakerkj/ha-device-mac-link/issues/37)) ([33864bf](https://github.com/bakerkj/ha-device-mac-link/commit/33864bffbd03ee66628d8347968162ccc74dfc63))
+* **deps:** update github-actions ([#39](https://github.com/bakerkj/ha-device-mac-link/issues/39)) ([913d951](https://github.com/bakerkj/ha-device-mac-link/commit/913d9515a4e94af59e2cc01e89df8d2c4297eff7))
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.27.0 ([#38](https://github.com/bakerkj/ha-device-mac-link/issues/38)) ([482e9de](https://github.com/bakerkj/ha-device-mac-link/commit/482e9debf06f58a14cc87b5c83fd461b60e0c4a2))
+* **deps:** update pre-commit hook astral-sh/ruff-pre-commit to v0.16.7 ([#27](https://github.com/bakerkj/ha-device-mac-link/issues/27)) ([04d1a18](https://github.com/bakerkj/ha-device-mac-link/commit/04d1a188102270233a7710461a0ad2120eed5248))
+* **deps:** update pre-commit hook rbubley/mirrors-prettier to v3.9.7 ([#31](https://github.com/bakerkj/ha-device-mac-link/issues/31)) ([42eadd1](https://github.com/bakerkj/ha-device-mac-link/commit/42eadd1d2050f27ae3a6f7b6158b49df56186b15))
+* **deps:** update pre-commit hooks ([#33](https://github.com/bakerkj/ha-device-mac-link/issues/33)) ([da2b6b8](https://github.com/bakerkj/ha-device-mac-link/commit/da2b6b82ec82e6750f34f747ed60d5a8dd58b62b))
+* **deps:** update pre-commit hooks ([#40](https://github.com/bakerkj/ha-device-mac-link/issues/40)) ([9f89c60](https://github.com/bakerkj/ha-device-mac-link/commit/9f89c60a9b9ab3f687d2ef7e69b6652fe4c89d8c))
+* switch actionlint pre-commit hook from rhysd (stale) to kjanat fork ([#30](https://github.com/bakerkj/ha-device-mac-link/issues/30)) ([c01ffd3](https://github.com/bakerkj/ha-device-mac-link/commit/c01ffd33e0fa2bb008d04939e6ad53d5548cea6b))
+
 ## [0.0.3](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.2...v0.0.3) (2026-09-05)
 
 
