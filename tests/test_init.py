@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import logging
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
@@ -851,3 +852,48 @@ async def test_child_device_ignored(
     assert "child device" not in caplog.text
     assert await _scan(hass) == 0
     assert dev_reg.async_get(child.id, include_child_devices=False) is None
+
+
+# ---------------------------------------------------------------------------
+# _device_domains helper
+# ---------------------------------------------------------------------------
+
+
+async def test_device_domains_non_composite_uses_config_entry_id(
+    hass: HomeAssistant,
+) -> None:
+    """Hot path: a plain non-composite device must resolve via `config_entry_id`
+    (plain attr, no stack walk) and not touch the deprecated `config_entries`
+    @property on HA 2026.10+."""
+    entry = MockConfigEntry(domain="hue")
+    entry.add_to_hass(hass)
+    manager = DeviceMacLinkManager(hass, CONFIG_SCHEMA({DOMAIN: {}})[DOMAIN])
+    device = SimpleNamespace(config_entry_id=entry.entry_id, is_composite_device=False)
+    assert manager._device_domains(device) == {"hue"}  # type: ignore[arg-type]
+
+
+async def test_device_domains_entryless_device_returns_empty(
+    hass: HomeAssistant,
+) -> None:
+    """A device with no config_entry_id yields no domains (no exception)."""
+    manager = DeviceMacLinkManager(hass, CONFIG_SCHEMA({DOMAIN: {}})[DOMAIN])
+    device = SimpleNamespace(config_entry_id=None, is_composite_device=False)
+    assert manager._device_domains(device) == set()  # type: ignore[arg-type]
+
+
+async def test_device_domains_composite_iterates_config_entries(
+    hass: HomeAssistant,
+) -> None:
+    """Composite devices legitimately span multiple entries; `_device_domains`
+    must enumerate all of them."""
+    e1 = MockConfigEntry(domain="hue")
+    e1.add_to_hass(hass)
+    e2 = MockConfigEntry(domain="matter")
+    e2.add_to_hass(hass)
+    manager = DeviceMacLinkManager(hass, CONFIG_SCHEMA({DOMAIN: {}})[DOMAIN])
+    device = SimpleNamespace(
+        config_entry_id=e1.entry_id,
+        config_entries={e1.entry_id, e2.entry_id},
+        is_composite_device=True,
+    )
+    assert manager._device_domains(device) == {"hue", "matter"}  # type: ignore[arg-type]
