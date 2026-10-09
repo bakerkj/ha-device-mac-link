@@ -791,10 +791,17 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         _LOGGER.info("reloaded configuration")
         await manager.async_scan()
 
+    # HA 2026.10 retyped schema= as probatio.Schema; runtime still accepts vol.
     hass.services.async_register(
-        DOMAIN, SERVICE_RESCAN, _async_rescan, schema=vol.Schema({})
+        DOMAIN,
+        SERVICE_RESCAN,
+        _async_rescan,
+        schema=vol.Schema({}),  # type: ignore[arg-type,unused-ignore]
     )
     hass.services.async_register(
-        DOMAIN, SERVICE_RELOAD, _async_reload, schema=vol.Schema({})
+        DOMAIN,
+        SERVICE_RELOAD,
+        _async_reload,
+        schema=vol.Schema({}),  # type: ignore[arg-type,unused-ignore]
     )
     return True
