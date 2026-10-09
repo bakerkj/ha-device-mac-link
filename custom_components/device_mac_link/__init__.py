@@ -37,7 +37,7 @@ from __future__ import annotations
 
 import logging
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 
 import voluptuous as vol
 from homeassistant.const import (
@@ -427,9 +427,19 @@ class DeviceMacLinkManager:
         self._active = False
 
     def _device_domains(self, device: dr.DeviceEntry) -> set[str]:
-        """Return the integration domains that own a device."""
+        """Return the integration domains that own a device.
+
+        Non-composites: use `config_entry_id` (plain attr). Composites still
+        legitimately carry multiple entries, and HA skips the 2026.10
+        `config_entries` deprecation stack walk for them.
+        """
+        if getattr(device, "is_composite_device", False):
+            entry_ids: Iterable[str] = device.config_entries
+        else:
+            entry_id = device.config_entry_id
+            entry_ids = (entry_id,) if entry_id is not None else ()
         domains: set[str] = set()
-        for entry_id in device.config_entries:
+        for entry_id in entry_ids:
             entry = self.hass.config_entries.async_get_entry(entry_id)
             if entry is not None:
                 domains.add(entry.domain)
