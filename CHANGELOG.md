@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.0.5](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.4...v0.0.5) (2026-10-16)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency uv to v0.13.0 ([#55](https://github.com/bakerkj/ha-device-mac-link/issues/55)) ([e8f20a2](https://github.com/bakerkj/ha-device-mac-link/commit/e8f20a27390d91f2917eb1e03f8fdc1df50f090f))
+* **deps:** update dependency uv to v0.13.1 ([#58](https://github.com/bakerkj/ha-device-mac-link/issues/58)) ([d108382](https://github.com/bakerkj/ha-device-mac-link/commit/d10838246cd099f5426b8d4e18324a3693ed851f))
+* **deps:** update github-actions ([#54](https://github.com/bakerkj/ha-device-mac-link/issues/54)) ([771a7d1](https://github.com/bakerkj/ha-device-mac-link/commit/771a7d17adbf9485c5fa06d1250dc5b355929fa2))
+* **deps:** update github-actions ([#60](https://github.com/bakerkj/ha-device-mac-link/issues/60)) ([c53acfc](https://github.com/bakerkj/ha-device-mac-link/commit/c53acfc067378eab41d5e209574dbed581e0f1d6))
+* **deps:** update pre-commit hook astral-sh/ruff-pre-commit to v0.17.1 ([#59](https://github.com/bakerkj/ha-device-mac-link/issues/59)) ([9e6b4c2](https://github.com/bakerkj/ha-device-mac-link/commit/9e6b4c24f93f93e98e081e9507c3c43b42bf9fd2))
+* **deps:** update pre-commit hooks ([#56](https://github.com/bakerkj/ha-device-mac-link/issues/56)) ([8787d32](https://github.com/bakerkj/ha-device-mac-link/commit/8787d324eb8b2ccd3d0824bb178a956d715e0c5b))
+
+
+### Continuous Integration
+
+* **claude:** gate on-demand [@claude](https://github.com/claude) workflow to repo owner ([#52](https://github.com/bakerkj/ha-device-mac-link/issues/52)) ([ea7fead](https://github.com/bakerkj/ha-device-mac-link/commit/ea7feadc95515eca1d96e198436f843608ec6940))
+
 ## [0.0.4](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.3...v0.0.4) (2026-10-09)
 
 
