@@ -22,8 +22,10 @@ jobs:
         with:
           python-version-file: .python-version
 
+      - name: Verify uv.lock matches pyproject.toml
+        run: uv lock --check
       - name: Install the locked environment
-        run: uv sync
+        run: uv sync --group test --frozen
 
       - name: Home Assistant under test
         run: >-

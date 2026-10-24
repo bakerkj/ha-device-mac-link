@@ -1166,6 +1166,11 @@ dev = [
     { name = "pytest-cov" },
     { name = "pytest-homeassistant-custom-component" },
 ]
+test = [
+    { name = "homeassistant" },
+    { name = "pytest-cov" },
+    { name = "pytest-homeassistant-custom-component" },
+]
 
 [package.metadata]
 
@@ -1173,6 +1178,11 @@ dev = [
 dev = [
     { name = "homeassistant", specifier = "==2026.10.*" },
     { name = "mypy", specifier = ">=2.1.0" },
+    { name = "pytest-cov", specifier = ">=5" },
+    { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.323" },
+]
+test = [
+    { name = "homeassistant", specifier = "==2026.10.*" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.323" },
 ]
