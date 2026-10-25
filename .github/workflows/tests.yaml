@@ -6,9 +6,8 @@ on:
   pull_request:
 
 jobs:
-  # Single target: whatever pyproject/uv.lock currently pin (>= 2026.8, the
-  # oldest release where a shared MAC connection links two device entries via
-  # the per-config-entry device split). Renovate bumps that pin, so this job
+  # Single target: the HA pinned by the test plugin in pyproject/uv.lock, which
+  # is also the hacs.json minimum. Renovate bumps that `==` pin, so this job
   # follows Home Assistant forward on its own.
   tests:
     runs-on: ubuntu-26.04
