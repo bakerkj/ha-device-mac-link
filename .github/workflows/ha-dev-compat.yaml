@@ -10,6 +10,7 @@ on:
       - "custom_components/device_mac_link/**.py"
       - "tests/test_ha_signature_compat.py"
       - ".github/workflows/ha-dev-compat.yaml"
+      - ".github/scripts/run_signature_guard.py"
 
 jobs:
   ha-dev-signature:

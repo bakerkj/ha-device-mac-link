@@ -1,15 +1,15 @@
 # Copyright (c) 2026 Kenneth Baker <bakerkj@umich.edu>
 # All rights reserved.
-"""Run the HA signature-compat tests with the httpx2 alias pre-installed.
+"""Run the HA signature-compat tests against HA dev.
 
 HA dev's ``homeassistant.__init__`` calls ``httpx2.alias_httpx()`` as its
 first act and refuses if ``sys.modules['httpx']`` is already real httpx.
-``pytest-homeassistant-custom-component``'s plugin chain imports httpx
-(indirectly, via requests) during plugin discovery, before HA's
-``__init__`` runs — the signature-guard job dies before any test
-executes. Call ``alias_httpx()`` ourselves before ``pytest.main`` so the
-alias is in place when the plugin loads. The try/except is a safety net
-if HA dev drops httpx2 again.
+pytest startup imports real httpx before HA's ``__init__`` runs, so the job
+would die before any test executes. Call ``alias_httpx()`` ourselves before
+``pytest.main``. The try/except is a safety net if HA dev drops httpx2 again.
+
+``pytest-homeassistant-custom-component`` is not loaded either: it is built
+against released HA and imports private helpers that dev removes.
 """
 
 from __future__ import annotations
@@ -27,7 +27,18 @@ def main() -> int:
 
     import pytest
 
-    return pytest.main(["tests/test_ha_signature_compat.py", "-v"])
+    # No HA test plugin and no conftest.py (its fixtures need the plugin): the
+    # plugin is built for released HA and imports private helpers dev removes.
+    # These tests take no fixtures, so neither is needed.
+    return pytest.main(
+        [
+            "-p",
+            "no:homeassistant",
+            "--noconftest",
+            "tests/test_ha_signature_compat.py",
+            "-v",
+        ]
+    )
 
 
 if __name__ == "__main__":
