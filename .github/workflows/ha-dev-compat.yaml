@@ -30,8 +30,10 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version-file: .python-version
+      - name: Verify uv.lock matches pyproject.toml
+        run: uv lock --check
       - name: Install project deps
-        run: uv sync
+        run: uv sync --frozen
       - name: Override homeassistant with dev branch
         run: |
           uv pip install --upgrade \
