@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.0.5](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.4...v0.0.5) (2026-10-30)
+
+
+### Bug Fixes
+
+* **ci:** run the HA dev signature guard without the HA test plugin ([#72](https://github.com/bakerkj/ha-device-mac-link/issues/72)) ([68b8f67](https://github.com/bakerkj/ha-device-mac-link/commit/68b8f67ba97de2ef5d81d7af62cd2f911071f3d1))
+* **deps:** pin the HA test plugin so the locked HA tracks releases ([#71](https://github.com/bakerkj/ha-device-mac-link/issues/71)) ([43dee6f](https://github.com/bakerkj/ha-device-mac-link/commit/43dee6f6fdba2731b8acfe412ffbb867bae050c5))
+
+
+### Miscellaneous Chores
+
+* **ci:** standardize uv usage across workflows ([#70](https://github.com/bakerkj/ha-device-mac-link/issues/70)) ([306387f](https://github.com/bakerkj/ha-device-mac-link/commit/306387f69367764001c5cba2b980b804cf07284f))
+* **deps:** lock file maintenance ([#73](https://github.com/bakerkj/ha-device-mac-link/issues/73)) ([56caad0](https://github.com/bakerkj/ha-device-mac-link/commit/56caad0810a5ceafa47b21570a665d4cd2af5913))
+* **deps:** lock file maintenance ([#77](https://github.com/bakerkj/ha-device-mac-link/issues/77)) ([a556749](https://github.com/bakerkj/ha-device-mac-link/commit/a556749c7190b106beb25cbad280fb91f770897e))
+* **deps:** lock file maintenance ([#78](https://github.com/bakerkj/ha-device-mac-link/issues/78)) ([3a76f27](https://github.com/bakerkj/ha-device-mac-link/commit/3a76f2753fd843a89dd6e1ac8abfde52c2614c78))
+* **deps:** lock file maintenance ([#79](https://github.com/bakerkj/ha-device-mac-link/issues/79)) ([12069b2](https://github.com/bakerkj/ha-device-mac-link/commit/12069b295a61f2a162b6717748ab8c45403a0bf6))
+* **deps:** lock file maintenance ([#81](https://github.com/bakerkj/ha-device-mac-link/issues/81)) ([4cfa281](https://github.com/bakerkj/ha-device-mac-link/commit/4cfa2819f9213ce61b87b0ec15228672ff4fcd80))
+* **deps:** update anthropics/claude-code-action action to v1.0.255 ([#65](https://github.com/bakerkj/ha-device-mac-link/issues/65)) ([0b4bfd2](https://github.com/bakerkj/ha-device-mac-link/commit/0b4bfd2a0011cd89e58dd588658a9d80071aad63))
+* **deps:** update anthropics/claude-code-action action to v1.0.263 ([#74](https://github.com/bakerkj/ha-device-mac-link/issues/74)) ([e3cd495](https://github.com/bakerkj/ha-device-mac-link/commit/e3cd4954490f1dd2561c2f391c93414796a0a7ff))
+* **deps:** update dependency uv to v0.13.0 ([#55](https://github.com/bakerkj/ha-device-mac-link/issues/55)) ([e8f20a2](https://github.com/bakerkj/ha-device-mac-link/commit/e8f20a27390d91f2917eb1e03f8fdc1df50f090f))
+* **deps:** update dependency uv to v0.13.1 ([#58](https://github.com/bakerkj/ha-device-mac-link/issues/58)) ([d108382](https://github.com/bakerkj/ha-device-mac-link/commit/d10838246cd099f5426b8d4e18324a3693ed851f))
+* **deps:** update dependency uv to v0.13.3 ([#61](https://github.com/bakerkj/ha-device-mac-link/issues/61)) ([70ce661](https://github.com/bakerkj/ha-device-mac-link/commit/70ce6616910be9bc5d7675563a6da801e3834431))
+* **deps:** update dependency uv to v0.13.4 ([#64](https://github.com/bakerkj/ha-device-mac-link/issues/64)) ([e27db31](https://github.com/bakerkj/ha-device-mac-link/commit/e27db31e714c911eaa803b6e11ac8457de0f50ff))
+* **deps:** update dependency uv to v0.13.5 ([#66](https://github.com/bakerkj/ha-device-mac-link/issues/66)) ([0a4c298](https://github.com/bakerkj/ha-device-mac-link/commit/0a4c298aecf40066dd5cfa037f849f4271374f94))
+* **deps:** update dependency uv to v0.13.6 ([#75](https://github.com/bakerkj/ha-device-mac-link/issues/75)) ([22b6627](https://github.com/bakerkj/ha-device-mac-link/commit/22b6627d068f034ff8d9365a86c66d048e18e2ee))
+* **deps:** update github-actions ([#54](https://github.com/bakerkj/ha-device-mac-link/issues/54)) ([771a7d1](https://github.com/bakerkj/ha-device-mac-link/commit/771a7d17adbf9485c5fa06d1250dc5b355929fa2))
+* **deps:** update github-actions ([#60](https://github.com/bakerkj/ha-device-mac-link/issues/60)) ([c53acfc](https://github.com/bakerkj/ha-device-mac-link/commit/c53acfc067378eab41d5e209574dbed581e0f1d6))
+* **deps:** update github-actions ([#62](https://github.com/bakerkj/ha-device-mac-link/issues/62)) ([60b38f4](https://github.com/bakerkj/ha-device-mac-link/commit/60b38f4d9adea40fbf4bffbac2e6ba824f51ceaa))
+* **deps:** update github-actions ([#67](https://github.com/bakerkj/ha-device-mac-link/issues/67)) ([cde9aa6](https://github.com/bakerkj/ha-device-mac-link/commit/cde9aa6889a47a39827db2fc129635b07c29511e))
+* **deps:** update github-actions ([#80](https://github.com/bakerkj/ha-device-mac-link/issues/80)) ([f0ddaaa](https://github.com/bakerkj/ha-device-mac-link/commit/f0ddaaaba832bceb05f4ee53d5eec10325ad27c1))
+* **deps:** update j178/prek-action action to v3.1.0 ([#63](https://github.com/bakerkj/ha-device-mac-link/issues/63)) ([226051f](https://github.com/bakerkj/ha-device-mac-link/commit/226051fedb5ddfc7fef06df81e739f52d77e372d))
+* **deps:** update pre-commit hook astral-sh/ruff-pre-commit to v0.17.1 ([#59](https://github.com/bakerkj/ha-device-mac-link/issues/59)) ([9e6b4c2](https://github.com/bakerkj/ha-device-mac-link/commit/9e6b4c24f93f93e98e081e9507c3c43b42bf9fd2))
+* **deps:** update pre-commit hook astral-sh/ruff-pre-commit to v0.17.2 ([#68](https://github.com/bakerkj/ha-device-mac-link/issues/68)) ([9874ff3](https://github.com/bakerkj/ha-device-mac-link/commit/9874ff34c1ab0b44b791c72b0cc7722b507e3e5e))
+* **deps:** update pre-commit hooks ([#56](https://github.com/bakerkj/ha-device-mac-link/issues/56)) ([8787d32](https://github.com/bakerkj/ha-device-mac-link/commit/8787d324eb8b2ccd3d0824bb178a956d715e0c5b))
+* **deps:** update pre-commit hooks ([#76](https://github.com/bakerkj/ha-device-mac-link/issues/76)) ([aa4a831](https://github.com/bakerkj/ha-device-mac-link/commit/aa4a83188861a5139215230bf92b5ed3b4c3d2aa))
+* **renovate:** enable lockFileMaintenance ([#69](https://github.com/bakerkj/ha-device-mac-link/issues/69)) ([610ee60](https://github.com/bakerkj/ha-device-mac-link/commit/610ee609e5a29e294d25e790eaeb834e8be796ff))
+
+
+### Continuous Integration
+
+* **claude:** gate on-demand [@claude](https://github.com/claude) workflow to repo owner ([#52](https://github.com/bakerkj/ha-device-mac-link/issues/52)) ([ea7fead](https://github.com/bakerkj/ha-device-mac-link/commit/ea7feadc95515eca1d96e198436f843608ec6940))
+
 ## [0.0.4](https://github.com/bakerkj/ha-device-mac-link/compare/v0.0.3...v0.0.4) (2026-10-09)
 
 
