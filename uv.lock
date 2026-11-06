@@ -1198,7 +1198,7 @@ wheels = [
 
 [[package]]
 name = "ha-device-mac-link"
-version = "0.0.4"
+version = "0.0.5"
 source = { virtual = "." }
 
 [package.dev-dependencies]
